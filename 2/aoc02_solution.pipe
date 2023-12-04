@@ -1,0 +1,56 @@
+NODE input_ac2_pipe_0945_0
+SQL >
+
+    -- prepare data as arrays
+    SELECT toInt8(replaceRegexpAll(ID, '[^\d]', '')) as ID,  arrayMap(x -> splitByRegexp(',',x), splitByRegexp(';',data)) as data FROM input_ac2
+    order by ID
+
+
+
+NODE input_ac2_pipe_0945_1
+SQL >
+
+    SELECT ID ,
+    -- sólo hay que tener en cuenta el máximo de caeda jugada
+    arrayFilter(x -> x LIKE '%red%', arrayFlatten(data) ) as redFlat,
+    arrayFilter(x -> x LIKE '%green%', arrayFlatten(data) ) as greenFlat,
+    arrayFilter(x -> x LIKE '%blue%', arrayFlatten(data) ) as blueFlat
+    FROM input_ac2_pipe_0945_0 ORDER BY ID
+
+
+
+NODE input_ac2_pipe_0945_2
+SQL >
+
+    SELECT ID,
+      arrayReduce('max',arrayMap(x -> toInt8(replaceRegexpAll(x, '[^\d]', '')), redFlat))  as redFlat,
+      arrayReduce('max',arrayMap(x -> toInt8(replaceRegexpAll(x, '[^\d]', '')), greenFlat))  as greenFlat,
+      arrayReduce('max',arrayMap(x -> toInt8(replaceRegexpAll(x, '[^\d]', '')), blueFlat))  as blueFlat
+    FROM input_ac2_pipe_0945_1 order by ID asc
+
+
+
+NODE input_ac2_pipe_0945_3
+SQL >
+
+    -- SOLUTION TO FIRST PART
+    -- solution to first part - took 1 hour splited in 2 days
+    SELECT
+      SUM(ID) as solution, 
+      COUNT(ID)
+    FROM input_ac2_pipe_0945_2
+    WHERE redFlat <= 12 and greenFlat <=13 and blueFlat <=14
+
+
+
+NODE input_ac2_pipe_0945_4
+SQL >
+
+    -- SOLUTION TO SECOND PART
+    -- took me only 5 minutes as I have the data in a database and structured
+    SELECT
+      COUNT(ID), 
+      SUM(redFlat*greenFlat*blueFlat) as power_solution
+    FROM input_ac2_pipe_0945_2
+
+
