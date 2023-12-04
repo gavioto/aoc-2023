@@ -1,0 +1,62 @@
+DESCRIPTION >
+	First and second part https://adventofcode.com/2023/day/1
+
+
+NODE transform
+SQL >
+
+    -- warning "twone"
+    -- warning "fiveight"
+    -- solution is to propagate vocals at en or start
+    select
+    value_orig as value_first_part,
+    replaceRegexpAll(
+    replaceRegexpAll(
+     replaceRegexpAll(
+      replaceRegexpAll(
+       replaceRegexpAll(
+         replaceRegexpAll(
+          replaceRegexpAll(
+            replaceRegexpAll(
+              replaceRegexpAll(value, 'one', 'o1e')
+              ,'two','t2o') 
+            ,'three','t3e')
+           ,'four','4')
+                 ,'five','5e')
+                ,'six','6')
+               ,'seven','7n')
+              ,'eight','e8t')
+              ,'nine','n9e')
+      as value_second_part
+                            from
+    (select value as value_orig, lower(value) as value FROM AoC01 
+         WHERE value <> 'value'  -- remove header
+    --     AND value like '%twone%' -- debug twone 
+    )
+
+
+
+NODE clean
+DESCRIPTION >
+    clean and agregate
+
+SQL >
+
+    select sum(calibration1), sum(calibration2)
+    from
+        (
+            select
+                toInt8(substring(num1, 1, 1)) * 10
+                + toInt8(substring(reverse(num1), 1, 1)) as calibration1,
+                toInt8(substring(num2, 1, 1)) * 10
+                + toInt8(substring(reverse(num2), 1, 1)) as calibration2
+            from
+                (
+                    SELECT
+                        replaceRegexpAll(value_first_part, '[^\d]', '') AS num1,
+                        replaceRegexpAll(value_second_part, '[^\d]', '') AS num2
+                    FROM transform
+                )
+        )
+
+
