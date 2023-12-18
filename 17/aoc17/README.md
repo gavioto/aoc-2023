@@ -15,3 +15,5 @@ mvn -N wrapper:wrapper
 - Embedding neo4J in your java application <https://neo4j.com/docs/java-reference/current/java-embedded/setup/>
 
 - https://clickhouse.com/codebrowser/ClickHouse/contrib/boost/boost/graph/dag_shortest_paths.hpp.html
+
+- Shortest path in dag Java <https://www.geeksforgeeks.org/shortest-path-for-directed-acyclic-graphs/>
