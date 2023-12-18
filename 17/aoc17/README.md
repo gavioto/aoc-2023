@@ -3,9 +3,11 @@ aoc17
 
 It seems a djistra problem
 
-Preconfigure steps
+# Prebuild steps
 
 mvn -N wrapper:wrapper
+
+https://stackoverflow.com/questions/43863522/error-your-push-would-publish-a-private-email-address
 
 # Articles 
 
