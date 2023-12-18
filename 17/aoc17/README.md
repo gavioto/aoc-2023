@@ -13,3 +13,5 @@ mvn -N wrapper:wrapper
 - node4J <https://neo4j.com/docs/cypher-manual/current/appendix/tutorials/shortestpath-planning/>
 - <https://neo4j.com/blog/graph-algorithms-neo4j-shortest-path/>
 - Embedding neo4J in your java application <https://neo4j.com/docs/java-reference/current/java-embedded/setup/>
+
+- https://clickhouse.com/codebrowser/ClickHouse/contrib/boost/boost/graph/dag_shortest_paths.hpp.html
